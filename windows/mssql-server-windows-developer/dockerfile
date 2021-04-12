@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/windows/servercore:1909
+FROM mcr.microsoft.com/windows/servercore:20H2
 
 LABEL maintainer "Perry Skountrianos"
 
@@ -17,8 +17,6 @@ SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPref
 COPY start.ps1 /
 WORKDIR /
 
-RUN Get-DnsClientServerAddress
-RUN Set-DnsClientServerAddress -InterfaceAlias "Ethernet" -ServerAddresses 8.8.8.8
 RUN Invoke-WebRequest -Uri $env:box -OutFile SQL.box ; \
         Invoke-WebRequest -Uri $env:exe -OutFile SQL.exe ; \
         Start-Process -Wait -FilePath .\SQL.exe -ArgumentList /qs, /x:setup ; \
